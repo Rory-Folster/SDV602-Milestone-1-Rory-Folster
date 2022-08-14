@@ -49,68 +49,68 @@ options = [
 Create GUI and plots.
 '''
 
-def mostCommonCrimes():
-    dataFrame = pd.read_csv('plot_data\\mostCommonCrimes.csv')
-    pieData = dataFrame['count'].iloc[0:6].sort_values(ascending=False)
-    labelData = dataFrame['crime'].iloc[0:6]
+def most_common_crimes(): #not using code comments for this function as functionality has been explained below. Have added comments to areas that contain different code.
+    data_frame = pd.read_csv('plot_data\\mostCommonCrimes.csv')
+    pie_data = data_frame['count'].iloc[0:6].sort_values(ascending=False)
+    label_data = data_frame['crime'].iloc[0:6]
 
-    clicked = tk.StringVar() 
-    clicked.set(options[2])
+    selected_option = tk.StringVar() 
+    selected_option.set(options[2])
 
-    def checkSelected(event):
-        if(clicked.get() == "Highest crime areas"):
-            win3.destroy()
+    def check_option(event):
+        if(selected_option.get() == "Highest crime areas"):
+            most_common_crimes_window.destroy()
             root.deiconify()
-        if(clicked.get() == "Total crimes per year"):
-            totalCrimes()
-            win3.destroy()
+        if(selected_option.get() == "Total crimes per year"):
+            total_crimes()
+            most_common_crimes_window.destroy()
 
-    win3 = tk.Toplevel()
-    win3.title("Data Analysis Program")
-    win3.geometry("800x600+300+300")
-    heading = tk.Label(win3, text="Most common crimes in Atlanta")
+    most_common_crimes_window = tk.Toplevel()
+    most_common_crimes_window.title("Data Analysis Program")
+    most_common_crimes_window.geometry("800x600+300+300")
+    heading = tk.Label(most_common_crimes_window, text="Most common crimes in Atlanta")
     heading.grid(row=0, column=0)
-    frameChartsLT = tk.Frame(win3)
-    frameChartsLT.grid(row=1, column=0) 
-    dropDown = tk.OptionMenu(win3, clicked, *options, command=checkSelected)
-    dropDown.grid(row=0, column=2, pady=20)
-    quitBtn = tk.Button(win3, text='Exit', command=root.destroy, height=1, width=12)
-    quitBtn.grid(row=2, column=2)
+    frame_charts_lt = tk.Frame(most_common_crimes_window)
+    frame_charts_lt.grid(row=1, column=0) 
+    drop_down = tk.OptionMenu(most_common_crimes_window, selected_option, *options, command=check_option)
+    drop_down.grid(row=0, column=2, pady=20)
+    quit_btn = tk.Button(most_common_crimes_window, text='Exit', command=root.destroy, height=1, width=12)
+    quit_btn.grid(row=2, column=2)
 
     fig = Figure()
     ax = fig.add_subplot(111)
-    ax.pie(pieData, radius=1, autopct='%0.2f%%', shadow=True, startangle=140, counterclock=False)
-    ax.legend(labelData, title="Crimes", loc="upper left", bbox_to_anchor=(0.9, 1.00), prop={'size': 7}) # Changing the size of legend so it fits in the canvas widget
-    chart = FigureCanvasTkAgg(fig, frameChartsLT)
+    ax.pie(pie_data, radius=1, autopct='%0.2f%%', shadow=True, startangle=140, counterclock=False)
+    ax.legend(label_data, title="Crimes", loc="upper left", bbox_to_anchor=(0.9, 1.00), prop={'size': 7}) # Changing the size of legend so it fits in the canvas widget
+    chart = FigureCanvasTkAgg(fig, frame_charts_lt)
     chart.get_tk_widget().grid(row=1, column=0)
 
-def totalCrimes():
-    dataFrame = pd.read_csv('plot_data\\barData.csv') #Reading csv file
-    yData = dataFrame['date'].iloc[0:8] #Splitting each column into seperate variables to be used with the bar graph.
-    xData = dataFrame['count'].sort_values(ascending=False).iloc[0:8] #Selecting only 0-8 entries as the final entry (2017) does not have a full year of entries.
+def total_crimes():
+    data_frame = pd.read_csv('plot_data\\barData.csv') #Reading csv file
+    yData = data_frame['date'].iloc[0:8] #Splitting each column into seperate variables to be used with the bar graph.
+    xData = data_frame['count'].sort_values(ascending=False).iloc[0:8] #Selecting only 0-8 entries as the final entry (2017) does not have a full year of entries.
 
-    clicked = tk.StringVar() # Setting the state of dropdown menu to the first item.
-    clicked.set(options[1])
+    selected_option = tk.StringVar() # Setting the state of drop_down menu to the first item.
+    selected_option.set(options[1])
     
-    def checkSelected(event): #if/else statement to display window depending on combobox selection
-        if(clicked.get() == "Highest crime areas"):
-            win2.destroy() #Destroys current window
+    def check_option(event): #if/else statement to display window depending on combobox selection
+        if(selected_option.get() == "Highest crime areas"):
+            total_crimes_window.destroy() #Destroys current window
             root.deiconify() #and unhides root window
-        if(clicked.get() == "Most common crimes"):
-            win2.destroy()
-            mostCommonCrimes()
+        if(selected_option.get() == "Most common crimes"):
+            total_crimes_window.destroy()
+            most_common_crimes()
 
-    win2 = tk.Toplevel() #creating top level instance of tkinter as you can only have one root window
-    win2.title("Data Anlysis Program") #Setting the title
-    win2.geometry("800x600+300+300") #Setting the size of the gui
-    heading = tk.Label(win2, text="Total amount of crimes per year in Atlanta") #Creating a heading so the user knows which window they're on
+    total_crimes_window = tk.Toplevel() #creating top level instance of tkinter as you can only have one root window
+    total_crimes_window.title("Data Anlysis Program") #Setting the title
+    total_crimes_window.geometry("800x600+300+300") #Setting the size of the gui
+    heading = tk.Label(total_crimes_window, text="Total amount of crimes per year in Atlanta") #Creating a heading so the user knows which window they're on
     heading.grid(row=0, column=0) #Using instead of pack() so i can adjust where the widgets sit on the page.
-    frameChartsLT = tk.Frame(win2) #Creating a frame from tkinter so I can add the plot onto it
+    frameChartsLT = tk.Frame(total_crimes_window) #Creating a frame from tkinter so I can add the plot onto it
     frameChartsLT.grid(row=1, column=0) 
-    dropDown = tk.OptionMenu(win2, clicked, *options, command=checkSelected) #Creating a combobox from tkinter
-    dropDown.grid(row=0, column=2, pady=20)
-    quitBtn = tk.Button(win2, text='Exit', command=root.destroy, height=1, width=12) #Creating an exit button
-    quitBtn.grid(row=2, column=2)
+    drop_down = tk.OptionMenu(total_crimes_window, selected_option, *options, command=check_option) #Creating a combobox from tkinter
+    drop_down.grid(row=0, column=2, pady=20)
+    quit_btn = tk.Button(total_crimes_window, text='Exit', command=root.destroy, height=1, width=12) #Creating an exit button
+    quit_btn.grid(row=2, column=2)
 
     fig = Figure() #Creating new figure from matplotlib 
     ax = fig.add_subplot(111) #Adding an axes to Figure 
@@ -125,40 +125,40 @@ root = tk.Tk()
 root.title("Data Anlysis Program")
 root.geometry("800x600+300+300")
 
-def highestCrimeAreas():
-    dataFrame = pd.read_csv('plot_data\\pieData.csv') #reading csv file
-    pieData = dataFrame['count'].iloc[0:5].sort_values(ascending=False) # getting count column as i need it for the plot
-    labelData = dataFrame['neighborhood'].iloc[0:5] # getting the neighbourhoods for the label aspect of the plot.
+def highest_crime_areas():
+    data_frame = pd.read_csv('plot_data\\pieData.csv') #reading csv file
+    pie_data = data_frame['count'].iloc[0:5].sort_values(ascending=False) # getting count column as i need it for the plot
+    label_data = data_frame['neighborhood'].iloc[0:5] # getting the neighbourhoods for the label aspect of the plot.
 
-    clicked = tk.StringVar() # Setting the state of dropdown menu to the first item.
-    clicked.set(options[0])
+    selected_option = tk.StringVar() # Setting the state of drop-down menu to the first item.
+    selected_option.set(options[0])
     
-    def checkSelected(event):
-        if(clicked.get() == "Total crimes per year"):
-            totalCrimes()
+    def check_option(event):
+        if(selected_option.get() == "Total crimes per year"):
+            total_crimes()
             root.withdraw()
-        if(clicked.get() == "Most common crimes"):
-            mostCommonCrimes()
+        if(selected_option.get() == "Most common crimes"):
+            most_common_crimes()
             root.withdraw()
 
     heading = tk.Label(root, text="Highest Crime Areas in Atlanta")
     heading.grid(row=0, column=0)
-    frameChartsLT = tk.Frame(root)
-    frameChartsLT.grid(row=1, column=0)
-    dropDown = tk.OptionMenu(root, clicked, *options, command=checkSelected)
-    dropDown.grid(row=0, column=2, pady=20)
-    quitBtn = tk.Button(root, text='Exit', command=root.destroy, height=1, width=12)
-    quitBtn.grid(row=2, column=2)
+    frame_charts_lt = tk.Frame(root)
+    frame_charts_lt.grid(row=1, column=0)
+    drop_down = tk.OptionMenu(root, selected_option, *options, command=check_option)
+    drop_down.grid(row=0, column=2, pady=20)
+    quit_btn = tk.Button(root, text='Exit', command=root.destroy, height=1, width=12)
+    quit_btn.grid(row=2, column=2)
 
 # Creating figure and adding pie plot to it.
     fig = Figure()
     ax = fig.add_subplot(111)
-    ax.pie(pieData, radius=1, autopct='%0.2f%%', shadow=True, startangle=140, counterclock=False)
-    ax.legend(labelData, title="Neighborhoods", loc="upper left", bbox_to_anchor=(0.9, 1.05))
-    chart = FigureCanvasTkAgg(fig, frameChartsLT)
+    ax.pie(pie_data, radius=1, autopct='%0.2f%%', shadow=True, startangle=140, counterclock=False)
+    ax.legend(label_data, title="Neighborhoods", loc="upper left", bbox_to_anchor=(0.9, 1.05))
+    chart = FigureCanvasTkAgg(fig, frame_charts_lt)
     chart.get_tk_widget().grid(row=1, column=0)
 
     root.mainloop()
 
 if __name__ == '__main__':
-    highestCrimeAreas()
+    highest_crime_areas()
