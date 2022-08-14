@@ -11,27 +11,27 @@ from matplotlib.figure import Figure
 '''
 Functions for creating seperate csv's for the different chart data we need. Kept for later revision if needed.
 '''
-# Pie chart csv
+# Highest crime areas pie chart csv
 
 #df = pd.read_csv('data\\atlcrime.csv') #reading csv file
 #df['count'] = 1
 #new_df = df.groupby(['crime', 'neighborhood']).count()['count'].sort_values(ascending=False)
-#new_df.to_csv('pieData.csv')
+#new_df.to_csv('highest_crime_areas.csv')
 
-# Bar chart csv
+# Total crimes bar chart csv
 
 #df = pd.read_csv('data\\atlcrime.csv') #reading csv file
 #df['count'] = 1
 #df['date'] = pd.to_datetime(df['date'])
 #new_df = df.groupby(df['date'].dt.year).count()['count'].sort_values(ascending=False)
-#new_df.to_csv('barData.csv')
+#new_df.to_csv('total_crimes.csv')
 
-# 2 Pie Chart
+# Most common crimes pie Chart
 
 #df = pd.read_csv('data\\atlcrime.csv') #reading csv file
 #df['count'] = 1
 #new_df = df.groupby(['crime']).count()['count'].sort_values(ascending=False)
-#new_df.to_csv('mostCommonCrimes.csv')
+#new_df.to_csv('most_common_crimes.csv')
 
 
 '''
@@ -50,7 +50,7 @@ Create GUI and plots.
 '''
 
 def most_common_crimes(): #not using code comments for this function as functionality has been explained below. Have added comments to areas that contain different code.
-    data_frame = pd.read_csv('plot_data\\mostCommonCrimes.csv')
+    data_frame = pd.read_csv('plot_data\\most_common_crimes.csv')
     pie_data = data_frame['count'].iloc[0:6].sort_values(ascending=False)
     label_data = data_frame['crime'].iloc[0:6]
 
@@ -85,7 +85,7 @@ def most_common_crimes(): #not using code comments for this function as function
     chart.get_tk_widget().grid(row=1, column=0)
 
 def total_crimes():
-    data_frame = pd.read_csv('plot_data\\barData.csv') #Reading csv file
+    data_frame = pd.read_csv('plot_data\\total_crimes.csv') #Reading csv file
     yData = data_frame['date'].iloc[0:8] #Splitting each column into seperate variables to be used with the bar graph.
     xData = data_frame['count'].sort_values(ascending=False).iloc[0:8] #Selecting only 0-8 entries as the final entry (2017) does not have a full year of entries.
 
@@ -126,7 +126,7 @@ root.title("Data Anlysis Program")
 root.geometry("800x600+300+300")
 
 def highest_crime_areas():
-    data_frame = pd.read_csv('plot_data\\pieData.csv') #reading csv file
+    data_frame = pd.read_csv('plot_data\\highest_crime_areas.csv') #reading csv file
     pie_data = data_frame['count'].iloc[0:5].sort_values(ascending=False) # getting count column as i need it for the plot
     label_data = data_frame['neighborhood'].iloc[0:5] # getting the neighbourhoods for the label aspect of the plot.
 
