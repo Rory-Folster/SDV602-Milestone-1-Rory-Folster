@@ -160,4 +160,5 @@ def highestCrimeAreas():
 
     root.mainloop()
 
-highestCrimeAreas()
+if __name__ == '__main__':
+    highestCrimeAreas()
