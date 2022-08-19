@@ -106,7 +106,7 @@ def total_crimes():
     heading.grid(row=0, column=0) #Using grid() instead of pack() so i can adjust where the widgets sit on the page.
     frameChartsLT = tk.Frame(total_crimes_window) #Creating a frame from tkinter so I can add the plot onto it
     frameChartsLT.grid(row=1, column=0) 
-    drop_down = tk.OptionMenu(total_crimes_window, selected_option, *options, command=check_option) #Creating a combobox from tkinter
+    drop_down = tk.OptionMenu(total_crimes_window, selected_option, *options, command=check_option) #Creating a combobox from tkinter, adding it to my TopLevel variable, adding options array and selected option Tkinter widget, as well as adding selected function.
     drop_down.grid(row=0, column=2, pady=20)
     quit_btn = tk.Button(total_crimes_window, text='Exit', command=root.destroy, height=1, width=12) #Creating an exit button
     quit_btn.grid(row=2, column=2)
