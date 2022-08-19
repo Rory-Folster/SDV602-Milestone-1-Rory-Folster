@@ -103,7 +103,7 @@ def total_crimes():
     total_crimes_window.title("Data Anlysis Program") #Setting the title
     total_crimes_window.geometry("800x600+100+100") #Setting the size of the gui
     heading = tk.Label(total_crimes_window, text="Total amount of crimes per year in Atlanta") #Creating a heading so the user knows which window they're on
-    heading.grid(row=0, column=0) #Using instead of pack() so i can adjust where the widgets sit on the page.
+    heading.grid(row=0, column=0) #Using grid() instead of pack() so i can adjust where the widgets sit on the page.
     frameChartsLT = tk.Frame(total_crimes_window) #Creating a frame from tkinter so I can add the plot onto it
     frameChartsLT.grid(row=1, column=0) 
     drop_down = tk.OptionMenu(total_crimes_window, selected_option, *options, command=check_option) #Creating a combobox from tkinter
@@ -122,7 +122,7 @@ def total_crimes():
 #intializing root for first window, creating it out of function to make it global so i can deiconify it on my other pages.
 root = tk.Tk() 
 root.title("Data Anlysis Program")
-root.geometry("800x600+100+100")
+root.geometry("800x600+100+100") # Setting display size (Width x Height) and displaying the window in specific place to increase immersion, important to keep smaller screens in mind as im coding this on a pc monitor.
 
 def highest_crime_areas():
     data_frame = pd.read_csv('plot_data\\highest_crime_areas.csv') #reading csv file
