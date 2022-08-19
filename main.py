@@ -66,7 +66,7 @@ def most_common_crimes(): #not using code comments for this function as function
 
     most_common_crimes_window = tk.Toplevel()
     most_common_crimes_window.title("Data Analysis Program")
-    most_common_crimes_window.geometry("800x600+300+300")
+    most_common_crimes_window.geometry("800x600+100+100")
     heading = tk.Label(most_common_crimes_window, text="Most common crimes in Atlanta")
     heading.grid(row=0, column=0)
     frame_charts_lt = tk.Frame(most_common_crimes_window)
@@ -101,7 +101,7 @@ def total_crimes():
 
     total_crimes_window = tk.Toplevel() #creating top level instance of tkinter as you can only have one root window
     total_crimes_window.title("Data Anlysis Program") #Setting the title
-    total_crimes_window.geometry("800x600+300+300") #Setting the size of the gui
+    total_crimes_window.geometry("800x600+100+100") #Setting the size of the gui
     heading = tk.Label(total_crimes_window, text="Total amount of crimes per year in Atlanta") #Creating a heading so the user knows which window they're on
     heading.grid(row=0, column=0) #Using instead of pack() so i can adjust where the widgets sit on the page.
     frameChartsLT = tk.Frame(total_crimes_window) #Creating a frame from tkinter so I can add the plot onto it
@@ -122,7 +122,7 @@ def total_crimes():
 #intializing root for first window, creating it out of function to make it global so i can deiconify it on my other pages.
 root = tk.Tk() 
 root.title("Data Anlysis Program")
-root.geometry("800x600+300+300")
+root.geometry("800x600+100+100")
 
 def highest_crime_areas():
     data_frame = pd.read_csv('plot_data\\highest_crime_areas.csv') #reading csv file
