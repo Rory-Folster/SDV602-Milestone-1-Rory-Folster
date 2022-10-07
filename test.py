@@ -84,6 +84,22 @@ def login():
        messagebox.showinfo('Wrong credentials', 'Incorrect username or password.')
        login_screen.lift(root)
 
+def register():
+    uname=username.get()
+    pwd=password.get()
+    #applying empty validation
+    if uname=='' or pwd=='':
+        messagebox.showinfo('Empty fields', 'Fields cannot be empty')
+    else:
+      #open database
+      conn = sqlite3.connect('users.db')
+      #select query
+      conn.execute('INSERT INTO Users(username, password) VALUES("%s", "%s")'%(uname,pwd))
+      #fetch data
+      conn.commit()
+      messagebox.showinfo('Account created', 'Account created')
+      conn.close()
+
 def loginScreen():
     global login_screen
     login_screen = tk.Toplevel()
@@ -101,6 +117,7 @@ def loginScreen():
     tk.Label(login_screen, text='Password: ').place(x=20,y=80)
     tk.Entry(login_screen, textvariable=password, show='*').place(x=120, y=82) #Making password input display as * to imporve security. Adding textvariable so i can grab the data for login function
     tk.Button(login_screen, text="Login", width=10, height=1, command=login, bg="#0E6655",fg="white",font=("Arial",12,"bold")).place(x=125,y=170)
+    tk.Button(login_screen, text="Register", width=10, height=1, command=register, bg="#0E6655",fg="white",font=("Arial",12,"bold")).place(x=125,y=200)
 
     login_screen.protocol("WM_DELETE_WINDOW", on_closing)
     login_screen.mainloop()
