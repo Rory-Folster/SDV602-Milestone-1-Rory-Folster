@@ -294,16 +294,44 @@ def total_crimes():
         data_frame["count"].sort_values(ascending=False).iloc[0:8]
     )  # Selecting only 0-8 entries as the final entry (2017) does not have a full year of entries.
 
+    def reset_view():
+        total_crimes_window.destroy()
+        total_crimes()
+
     def data_input_func():
         data_input.delete(0, END)
 
-    def save_file():
-        file = filedialog.asksaveasfilename(
+    def upload_file():
+        file = filedialog.askopenfilename(
             filetypes=[("CSV Files", ".csv")], defaultextension=".csv"
         )
         if file:
-            data_frame.to_csv(file, index=False)
-            messagebox.showinfo("CSV saved", "CSV file saved")
+            # Next change window size when imported with window.geometry('520x300')
+            # And create new figure and chart to display uploaded file, possibly add a remove feature if i get time.
+            try:
+                total_crimes_window.geometry("1500x700+100+100")
+                imported_file = pd.read_csv(file)
+                print(imported_file)
+                new_y_data = (
+                    imported_file["neighborhood"].iloc[0:8].sort_values(ascending=False)
+                )
+                new_x_data = imported_file["count"].iloc[0:8]
+                reset_btn.config(state=ACTIVE)
+                new_fig = Figure()
+                new_ax = new_fig.add_subplot()
+                new_ax.bar(new_y_data, new_x_data)
+                new_ax.set_xticks(new_y_data)
+                # reset_btn.config(state=ACTIVE)
+                new_frame_charts_lt = tk.Frame(total_crimes_window)
+                new_frame_charts_lt.grid(row=1, column=3)
+                new_bar = FigureCanvasTkAgg(new_fig, new_frame_charts_lt)
+                new_chart = new_bar.get_tk_widget()
+                new_chart.grid(row=1, column=3)
+            except:
+                total_crimes_window.geometry("850x700+100+100")
+                messagebox.showinfo(
+                    "CSV File can not be read.", "CSV File can not be read."
+                )
 
     selected_option = (
         tk.StringVar()
@@ -345,16 +373,25 @@ def total_crimes():
     drop_down.grid(row=0, column=2, pady=20)
     data_input = tk.Entry(total_crimes_window, width=15)
     data_input.grid(row=3, column=0, ipady=30, ipadx=270)
-    download_data = tk.Button(total_crimes_window, text="Download", command=save_file)
-    download_data.grid(row=1, column=2)
     data_input_btn = tk.Button(
         total_crimes_window, text="Submit", command=data_input_func
     )
     data_input_btn.grid(row=3, column=1)
+    download_data = tk.Button(
+        total_crimes_window, text="Upload File", command=upload_file
+    )
+    reset_btn = tk.Button(
+        total_crimes_window,
+        text="Remove import",
+        command=reset_view,
+        state=DISABLED,
+    )
+    reset_btn.grid(row=2, column=2)
+    download_data.grid(row=1, column=2)
     quit_btn = tk.Button(
         total_crimes_window, text="Exit", command=on_closing, height=1, width=12
     )  # Creating an exit button
-    quit_btn.grid(row=2, column=2)
+    quit_btn.grid(row=3, column=2)
 
     fig = Figure()  # Creating new figure from matplotlib
     ax = fig.add_subplot(111)  # Adding an axes to Figure
