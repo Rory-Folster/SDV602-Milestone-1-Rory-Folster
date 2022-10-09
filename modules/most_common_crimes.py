@@ -1,3 +1,0 @@
-"""
-Most common crimes DF
-"""
