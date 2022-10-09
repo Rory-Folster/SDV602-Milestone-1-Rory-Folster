@@ -1,162 +1,31 @@
-from distutils.command.upload import upload
-from email import message
-from tkinter import ACTIVE, DISABLED, filedialog
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
+"""
+Python application created for data analysists to read and interact with 3 pre-set DES.
+The users will be able to sign-in, create an account, upload CSV files to be plotted
+and chat between each other.
+"""
+
+from tkinter import END, ACTIVE, DISABLED, filedialog, messagebox
 import tkinter as tk
+import pandas as pd
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
-import sqlite3
-from tkinter import END, messagebox
-
-# https://data.world/bryantahb/crime-in-atlanta-2009-2017 - Original CSV location.
-
-"""
-Functions for creating seperate csv's for the different chart data we need. Kept for later revision if needed.
-"""
-# Highest crime areas pie chart csv
-
-# df = pd.read_csv('data\\atlcrime.csv') #reading csv file
-# df['count'] = 1
-# new_df = df.groupby(['crime', 'neighborhood']).count()['count'].sort_values(ascending=False)
-# new_df.to_csv('highest_crime_areas.csv')
-
-# Total crimes bar chart csv
-
-# df = pd.read_csv('data\\atlcrime.csv') #reading csv file
-# df['count'] = 1
-# df['date'] = pd.to_datetime(df['date'])
-# new_df = df.groupby(df['date'].dt.year).count()['count'].sort_values(ascending=False)
-# new_df.to_csv('total_crimes.csv')
-
-# Most common crimes pie Chart
-
-# df = pd.read_csv('data\\atlcrime.csv') #reading csv file
-# df['count'] = 1
-# new_df = df.groupby(['crime']).count()['count'].sort_values(ascending=False)
-# new_df.to_csv('most_common_crimes.csv')
-
-
-"""
-Global variables needed for application.
-"""
 
 # Used for combo box on each des.
 options = ["Highest crime areas", "Total crimes per year", "Most common crimes"]
 
-"""
-Global Functions
-"""
-
 
 def on_closing():
+    """
+    Function to ask user if they want to quit, instead of just closing.
+    """
     if messagebox.askokcancel("Quit", "Do you want to quit?"):
         root.destroy()
 
 
-"""
-Create GUI and plots.
-"""
-
-
-# def login():
-#     # Testing login
-#     # rory
-#     # Rorukz123
-
-#     # getting form data
-#     uname = username.get()
-#     pwd = password.get()
-#     # applying empty validation
-#     if uname == "" or pwd == "":
-#         messagebox.showinfo("Empty fields", "Fields cannot be empty")
-#     else:
-#         # open database
-#         conn = sqlite3.connect("users.db")
-#         # select query
-#         cursor = conn.execute(
-#             'SELECT * from Users where USERNAME="%s" and PASSWORD="%s"' % (uname, pwd)
-#         )
-#         # fetch data
-#         if cursor.fetchone():
-#             messagebox.showinfo("Login success", "Login sucess")
-#             root.deiconify()
-#             login_screen.destroy()
-#             highest_crime_areas()
-#         else:
-#             messagebox.showinfo("Wrong credentials", "Incorrect username or password.")
-
-
-# def register():
-#     uname = username.get()
-#     pwd = password.get()
-#     # applying empty validation
-#     if uname == "" or pwd == "":
-#         messagebox.showinfo("Empty fields", "Fields cannot be empty")
-#     else:
-#         # open database
-#         conn = sqlite3.connect("users.db")
-#         # select query
-#         conn.execute(
-#             'INSERT INTO Users(username, password) VALUES("%s", "%s")' % (uname, pwd)
-#         )
-#         # commit querry
-#         conn.commit()
-#         messagebox.showinfo("Account created", "Account created. Welcome to the application.")
-#         conn.close()
-#         root.deiconify()
-#         login_screen.destroy()
-#         highest_crime_areas()
-
-
-# def loginScreen():
-#     root.withdraw()
-#     global login_screen
-#     login_screen = tk.Toplevel()
-#     login_screen.geometry("350x250+100+100")
-#     login_screen.lift(root)
-
-#     global username
-#     global password
-#     username = tk.StringVar()
-#     password = tk.StringVar()
-
-#     tk.Label(login_screen, width="300", text="Login Form").pack()
-#     tk.Label(login_screen, text="Username: ").place(x=20, y=40)
-#     tk.Entry(login_screen, textvariable=username).place(
-#         x=120, y=42
-#     )  # Adding textvariable so i can grab the data in login function
-#     tk.Label(login_screen, text="Password: ").place(x=20, y=80)
-#     tk.Entry(login_screen, textvariable=password, show="*").place(
-#         x=120, y=82
-#     )  # Making password input display as * to imporve security. Adding textvariable so i can grab the data for login function
-#     tk.Button(
-#         login_screen,
-#         text="Login",
-#         width=10,
-#         height=1,
-#         command=login,
-#         bg="#0E6655",
-#         fg="white",
-#         font=("Arial", 12, "bold"),
-#     ).place(x=125, y=170)
-#     tk.Button(
-#         login_screen,
-#         text="Register",
-#         width=10,
-#         height=1,
-#         command=register,
-#         bg="#0E6655",
-#         fg="white",
-#         font=("Arial", 12, "bold"),
-#     ).place(x=125, y=210)
-
-#     login_screen.protocol("WM_DELETE_WINDOW", on_closing)
-#     login_screen.mainloop()
-
-
-def most_common_crimes():  # not using code comments for this function as functionality has been explained below. Have added comments to areas that contain different code.
+def most_common_crimes():
+    """
+    Most Common Crimes DES.
+    """
     data_frame = pd.read_csv("plot_data\\most_common_crimes.csv")
     pie_data = data_frame["count"].iloc[0:6].sort_values(ascending=False)
     label_data = data_frame["crime"].iloc[0:6]
@@ -173,8 +42,6 @@ def most_common_crimes():  # not using code comments for this function as functi
             filetypes=[("CSV Files", ".csv")], defaultextension=".csv"
         )
         if file:
-            # Next change window size when imported with window.geometry('520x300')
-            # And create new figure and chart to display uploaded file, possibly add a remove feature if i get time.
             try:
                 most_common_crimes_window.geometry("1500x700+100+100")
                 imported_file = pd.read_csv(file)
@@ -261,8 +128,8 @@ def most_common_crimes():  # not using code comments for this function as functi
     quit_btn.grid(row=3, column=2)
 
     fig = Figure()
-    ax = fig.add_subplot(111)
-    ax.pie(
+    plot_axes = fig.add_subplot(111)
+    plot_axes.pie(
         pie_data,
         radius=1,
         autopct="%0.2f%%",
@@ -270,13 +137,13 @@ def most_common_crimes():  # not using code comments for this function as functi
         startangle=140,
         counterclock=False,
     )
-    ax.legend(
+    plot_axes.legend(
         label_data,
         title="Crimes",
         loc="upper left",
         bbox_to_anchor=(0.9, 1.00),
         prop={"size": 7},
-    )  # Changing the size of legend so it fits in the canvas widget
+    )
     chart = FigureCanvasTkAgg(fig, frame_charts_lt)
     toolbar = NavigationToolbar2Tk(chart)
     toolbar.grid(row=2, column=0)
@@ -286,11 +153,16 @@ def most_common_crimes():  # not using code comments for this function as functi
 
 
 def total_crimes():
+
+    """
+    Total Crimes DES.
+    """
+
     data_frame = pd.read_csv("plot_data\\total_crimes.csv")  # Reading csv file
-    yData = data_frame["date"].iloc[
+    y_data = data_frame["date"].iloc[
         0:8
     ]  # Splitting each column into seperate variables to be used with the bar graph.
-    xData = (
+    x_data = (
         data_frame["count"].sort_values(ascending=False).iloc[0:8]
     )  # Selecting only 0-8 entries as the final entry (2017) does not have a full year of entries.
 
@@ -298,40 +170,35 @@ def total_crimes():
         total_crimes_window.destroy()
         total_crimes()
 
-    def data_input_func():
+    def data_input_func():  # placeholder function until I start making the data filtering.
         data_input.delete(0, END)
 
-    def upload_file():
+    def upload_file():  # This function has been explained below.
         file = filedialog.askopenfilename(
             filetypes=[("CSV Files", ".csv")], defaultextension=".csv"
         )
         if file:
-            # Next change window size when imported with window.geometry('520x300')
-            # And create new figure and chart to display uploaded file, possibly add a remove feature if i get time.
-            try:
-                total_crimes_window.geometry("1500x700+100+100")
-                imported_file = pd.read_csv(file)
-                print(imported_file)
-                new_y_data = (
-                    imported_file["neighborhood"].iloc[0:8].sort_values(ascending=False)
-                )
-                new_x_data = imported_file["count"].iloc[0:8]
-                reset_btn.config(state=ACTIVE)
-                new_fig = Figure()
-                new_ax = new_fig.add_subplot()
-                new_ax.bar(new_y_data, new_x_data)
-                new_ax.set_xticks(new_y_data)
-                # reset_btn.config(state=ACTIVE)
-                new_frame_charts_lt = tk.Frame(total_crimes_window)
-                new_frame_charts_lt.grid(row=1, column=3)
-                new_bar = FigureCanvasTkAgg(new_fig, new_frame_charts_lt)
-                new_chart = new_bar.get_tk_widget()
-                new_chart.grid(row=1, column=3)
-            except:
-                total_crimes_window.geometry("850x700+100+100")
-                messagebox.showinfo(
-                    "CSV File can not be read.", "CSV File can not be read."
-                )
+            total_crimes_window.geometry("1500x700+100+100")
+            imported_file = pd.read_csv(file)
+            new_y_data = (
+                imported_file["neighborhood"].iloc[0:8].sort_values(ascending=False)
+            )
+            new_x_data = imported_file["count"].iloc[0:8]
+            reset_btn.config(state=ACTIVE)
+            new_fig = Figure()
+            new_ax = new_fig.add_subplot()
+            new_ax.bar(new_y_data, new_x_data)
+            new_ax.set_xticks(new_y_data)
+            new_frame_charts_lt = tk.Frame(total_crimes_window)
+            new_frame_charts_lt.grid(row=1, column=3)
+            new_bar = FigureCanvasTkAgg(new_fig, new_frame_charts_lt)
+            new_chart = new_bar.get_tk_widget()
+            new_chart.grid(row=1, column=3)
+        else:
+            total_crimes_window.geometry("850x700+100+100")
+            messagebox.showinfo(
+                "CSV File can not be read.", "CSV File can not be read."
+            )
 
     selected_option = (
         tk.StringVar()
@@ -363,13 +230,15 @@ def total_crimes():
         total_crimes_window, text="Enter additional data specifications here"
     )
     input_data_label.grid(row=2, column=0)
-    frameChartsLT = tk.Frame(
+    frame_charts_lt = tk.Frame(
         total_crimes_window
     )  # Creating a frame from tkinter so I can add the plot onto it
-    frameChartsLT.grid(row=1, column=0)
+    frame_charts_lt.grid(row=1, column=0)
     drop_down = tk.OptionMenu(
         total_crimes_window, selected_option, *options, command=check_option
-    )  # Creating a combobox from tkinter, adding it to my TopLevel variable, adding options array and selected option Tkinter widget, as well as adding selected function.
+    )  # Creating a combobox from tkinter, adding it to my TopLevel variable,
+    # adding options array and selected option Tkinter widget,
+    # as well as adding selected function.
     drop_down.grid(row=0, column=2, pady=20)
     data_input = tk.Entry(total_crimes_window, width=15)
     data_input.grid(row=3, column=0, ipady=30, ipadx=270)
@@ -394,15 +263,15 @@ def total_crimes():
     quit_btn.grid(row=3, column=2)
 
     fig = Figure()  # Creating new figure from matplotlib
-    ax = fig.add_subplot(111)  # Adding an axes to Figure
-    ax.bar(
-        yData, xData
+    plot_axes = fig.add_subplot(111)  # Adding an axes to Figure
+    plot_axes.bar(
+        y_data, x_data
     )  # Creating a bar graph and adding the two columns of data from the edited csv
-    ax.set_xticks(
-        yData
+    plot_axes.set_xticks(
+        y_data
     )  # Allowing the graph to display all years instead of skipping some.
     chart = FigureCanvasTkAgg(
-        fig, frameChartsLT
+        fig, frame_charts_lt
     )  # Adding the Figure and plot together using the FigureCanvasTkAgg interface
     toolbar = NavigationToolbar2Tk(chart)
     toolbar.grid(row=2, column=0)
@@ -411,17 +280,21 @@ def total_crimes():
     total_crimes_window.protocol("WM_DELETE_WINDOW", on_closing)
 
 
+root = tk.Tk()
+root.title("Data Anlysis Program")
+root.geometry(
+    "850x700+100+100"
+)  # Setting display size (Width x Height) and displaying the window in specific place,
+# important to keep smaller screens in mind as im coding this on a pc monitor.
+
+
 def highest_crime_areas():
-    # intializing root for first window, creating it out of function to make it global so i can deiconify it on my other pages.
-    global root
-    root = tk.Tk()
-    root.title("Data Anlysis Program")
-    root.geometry(
-        "850x700+100+100"
-    )  # Setting display size (Width x Height) and displaying the window in specific place to increase immersion, important to keep smaller screens in mind as im coding this on a pc monitor.
-    data_frame = pd.read_csv(
-        "plot_data\\highest_crime_areas.csv"
-    )  # reading csv file, 'https://docs.google.com/spreadsheets/d/' + '1Xremz1chwPvWzUGE7CTAbmrnOvUV2wgT0-sTxs0fxaQ' + '/export?gid=768135405&format=csv' <-- to import data from google sheets.
+
+    """
+    Highest crime areas DES.
+    """
+
+    data_frame = pd.read_csv("plot_data\\highest_crime_areas.csv")  # reading csv file
     pie_data = (
         data_frame["count"].iloc[0:5].sort_values(ascending=False)
     )  # getting count column as i need it for the plot
@@ -429,23 +302,40 @@ def highest_crime_areas():
         0:5
     ]  # getting the neighbourhoods for the label aspect of the plot.
 
-    def data_input_func():  # add function to grab user input and create where clause using pandas and the corrosponding csv file.
+    def data_input_func():
         data_input.delete(0, END)
 
     def upload_file():
+        """
+        Creating upload file function. This will involve using Tkinter's 'askopenfilename'
+        to get the directory. Pandas will then be used to deconstruct the data and plot an
+        additional MatPlotLib plot.
+        """
+
+        # this opens a window explorer that will allow a user to select a CSV file
         file = filedialog.askopenfilename(
-            filetypes=[("CSV Files", ".csv")], defaultextension=".csv"
+            # Setting the required file to be a CSV file\
+            # to help the user know which file is required.
+            filetypes=[("CSV Files", ".csv")],
+            defaultextension=".csv",
         )
+        # If the user returns a directory, run the following code.
         if file:
-            # Next change window size when imported with window.geometry('520x300')
-            # And create new figure and chart to display uploaded file, possibly add a remove feature if i get time.
+            # Increase the size of the window to allow the new plot to fit.
             root.geometry("1500x700+100+100")
+            # Adding the dataframe into a variable so i can deconstruct it
             imported_file = pd.read_csv(file)
+            # Grabbing the first column
             new_pie_data = imported_file["count"].iloc[0:6].sort_values(ascending=False)
+            # Grabbing the second column
             new_label_data = imported_file["crime"].iloc[0:6]
 
+            # creating the new figure needed for the new plot
             new_fig = Figure()
+            # Adding the pie sub-plot number, 111.
             new_ax = new_fig.add_subplot(111)
+            # Adding the count column into the pie function.
+            # Also changing the style so it fits and looks nice.
             new_ax.pie(
                 new_pie_data,
                 radius=1,
@@ -454,25 +344,34 @@ def highest_crime_areas():
                 startangle=140,
                 counterclock=False,
             )
+            # Adding a legend so the user knows what the data represents.
             new_ax.legend(
                 new_label_data,
                 title="imported data",
                 loc="upper left",
                 bbox_to_anchor=(0.9, 1.05),
+                # Changing the size of the legend so it fits in the Figure.
                 prop={"size": 7},
             )
+            # Allowing the reset view button to be used.
             reset_btn.config(state=ACTIVE)
-            global new_frame_charts_lt
-            new_frame_charts_lt = tk.Frame(root)
-            new_frame_charts_lt.grid(row=1, column=3)
-            new_pie = FigureCanvasTkAgg(new_fig, new_frame_charts_lt)
+            # creating global variable so that it can be removed as the
+            # root window can not be closed and reopened without restarting the app.
+            global NEW_FRAME_CHARTS_LT
+            # creating new frame
+            NEW_FRAME_CHARTS_LT = tk.Frame(root)
+            NEW_FRAME_CHARTS_LT.grid(row=1, column=3)
+            # adding the figure into the frame and placing the frame on the window.
+            new_pie = FigureCanvasTkAgg(new_fig, NEW_FRAME_CHARTS_LT)
             new_chart = new_pie.get_tk_widget()
             new_chart.grid(row=1, column=3)
 
     def reset_view():
-        new_frame_charts_lt.destroy()
-        root.geometry("850x700+100+100")
-        reset_btn.config(state=DISABLED)
+        NEW_FRAME_CHARTS_LT.destroy()  # destorys the current imported plot
+        root.geometry(
+            "850x700+100+100"
+        )  # resets the window size back to the regular size.
+        reset_btn.config(state=DISABLED)  # Disables the button once again.
 
     selected_option = (
         tk.StringVar()
@@ -505,6 +404,7 @@ def highest_crime_areas():
         root,
         text="Remove import",
         command=reset_view,
+        # Setting the state so that the button can only be pressed when a file is imported.
         state=DISABLED,
     )
     reset_btn.grid(row=2, column=2)
@@ -513,8 +413,8 @@ def highest_crime_areas():
 
     # Creating figure and adding pie plot to it.
     fig = Figure()
-    ax = fig.add_subplot(111)
-    ax.pie(
+    plot_axes = fig.add_subplot(111)
+    plot_axes.pie(
         pie_data,
         radius=1,
         autopct="%0.2f%%",
@@ -522,7 +422,7 @@ def highest_crime_areas():
         startangle=140,
         counterclock=False,
     )
-    ax.legend(
+    plot_axes.legend(
         label_data, title="Neighborhoods", loc="upper left", bbox_to_anchor=(0.9, 1.05)
     )
     chart = FigureCanvasTkAgg(fig, frame_charts_lt)
@@ -535,5 +435,4 @@ def highest_crime_areas():
 
 
 if __name__ == "__main__":
-    # loginScreen()
     highest_crime_areas()
