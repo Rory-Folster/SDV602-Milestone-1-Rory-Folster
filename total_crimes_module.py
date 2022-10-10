@@ -63,8 +63,7 @@ def total_crimes():
         """
         Asks user if they wish to quit. Made to stop using accidentally closing the application.
         """
-        if messagebox.askokcancel("Quit", "Do you want to quit?"):
-            total_crimes_window.destroy()
+        highest_crime_module.on_closing()
 
     def show_main():
         total_crimes_window.destroy()
@@ -118,7 +117,7 @@ def total_crimes():
     reset_btn.grid(row=2, column=2)
     download_data.grid(row=1, column=2)
     quit_btn = tk.Button(
-        total_crimes_window, text="Exit", height=1, width=12, command=highest_crime_module.on_closing
+        total_crimes_window, text="Exit", height=1, width=12, command=on_closing
     )  # Creating an exit button
     quit_btn.grid(row=3, column=2)
 

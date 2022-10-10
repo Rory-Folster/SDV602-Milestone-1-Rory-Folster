@@ -73,8 +73,7 @@ def most_common_crimes():
         """
         Asks user if they wish to quit. Made to stop using accidentally closing the application.
         """
-        if messagebox.askokcancel("Quit", "Do you want to quit?"):
-            most_common_crimes_window.destroy()
+        highest_crime_module.on_closing()
 
 
     def show_main():
