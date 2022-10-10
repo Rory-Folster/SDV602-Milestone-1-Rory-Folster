@@ -22,7 +22,8 @@ def show_total_crimes_window():
 
 def show_most_common_window():
     """
-    Closes root window, and opens the common crimes window using the common crimes module's function.
+    Closes root window, and opens the common crimes
+    window using the common crimes module's function.
     """
 
     root.withdraw()
@@ -124,6 +125,11 @@ def highest_crime_areas():
             new_pie = FigureCanvasTkAgg(new_fig, NEW_FRAME_CHARTS_LT)
             new_chart = new_pie.get_tk_widget()
             new_chart.grid(row=1, column=4)
+        else:
+            root.geometry("970x700+100+100")
+            messagebox.showinfo(
+                "CSV File can not be read.", "CSV File can not be read."
+            )
 
     def reset_view():
         """

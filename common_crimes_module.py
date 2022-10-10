@@ -1,5 +1,5 @@
 """
-DES to plot the most common crimes in Atlanta DES. 
+DES to plot the most common crimes in Atlanta DES.
 """
 
 from tkinter import END, ACTIVE, DISABLED, filedialog, messagebox
@@ -31,43 +31,42 @@ def most_common_crimes():
             filetypes=[("CSV Files", ".csv")], defaultextension=".csv"
         )
         if file:
-            try:
-                most_common_crimes_window.geometry("1600x700+100+100")
-                imported_file = pd.read_csv(file)
-                new_pie_data = (
-                    imported_file["count"].iloc[0:6].sort_values(
-                        ascending=False)
-                )
-                new_label_data = imported_file["crime"].iloc[0:6]
+            most_common_crimes_window.geometry("1600x700+100+100")
+            imported_file = pd.read_csv(file)
+            new_pie_data = (
+                imported_file["count"].iloc[0:6].sort_values(
+                    ascending=False)
+            )
+            new_label_data = imported_file["crime"].iloc[0:6]
 
-                new_fig = Figure()
-                new_ax = new_fig.add_subplot(111)
-                new_ax.pie(
-                    new_pie_data,
-                    radius=1,
-                    autopct="%0.2f%%",
-                    shadow=True,
-                    startangle=140,
-                    counterclock=False,
-                )
-                new_ax.legend(
-                    new_label_data,
-                    title="imported data",
-                    loc="upper left",
-                    bbox_to_anchor=(0.9, 1.05),
-                    prop={"size": 7},
-                )
-                reset_btn.config(state=ACTIVE)
-                new_frame_charts_lt = tk.Frame(most_common_crimes_window)
-                new_frame_charts_lt.grid(row=1, column=4)
-                new_pie = FigureCanvasTkAgg(new_fig, new_frame_charts_lt)
-                new_chart = new_pie.get_tk_widget()
-                new_chart.grid(row=1, column=4)
-            except:
-                most_common_crimes_window.geometry("970x700+100+100")
-                messagebox.showinfo(
-                    "CSV File can not be read.", "CSV File can not be read."
-                )
+            new_fig = Figure()
+            new_ax = new_fig.add_subplot(111)
+            new_ax.pie(
+                new_pie_data,
+                radius=1,
+                autopct="%0.2f%%",
+                shadow=True,
+                startangle=140,
+                counterclock=False,
+            )
+            new_ax.legend(
+                new_label_data,
+                title="imported data",
+                loc="upper left",
+                bbox_to_anchor=(0.9, 1.05),
+                prop={"size": 7},
+            )
+            reset_btn.config(state=ACTIVE)
+            new_frame_charts_lt = tk.Frame(most_common_crimes_window)
+            new_frame_charts_lt.grid(row=1, column=4)
+            new_pie = FigureCanvasTkAgg(new_fig, new_frame_charts_lt)
+            new_chart = new_pie.get_tk_widget()
+            new_chart.grid(row=1, column=4)
+        else:
+            most_common_crimes_window.geometry("970x700+100+100")
+            messagebox.showinfo(
+                "CSV File can not be read.", "CSV File can not be read."
+            )
 
     def on_closing():
         """
