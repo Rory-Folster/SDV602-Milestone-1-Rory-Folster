@@ -1,3 +1,7 @@
+"""
+DES to plot the total amount of crimes per year in Atlanta.
+"""
+
 from tkinter import END, ACTIVE, DISABLED, filedialog, messagebox
 import tkinter as tk
 import pandas as pd
@@ -32,7 +36,7 @@ def total_crimes():
             filetypes=[("CSV Files", ".csv")], defaultextension=".csv"
         )
         if file:
-            total_crimes_window.geometry("1500x700+100+100")
+            total_crimes_window.geometry("1600x700+100+100")
             imported_file = pd.read_csv(file)
             new_y_data = (
                 imported_file["neighborhood"].iloc[0:8].sort_values(
@@ -45,10 +49,10 @@ def total_crimes():
             new_ax.bar(new_y_data, new_x_data)
             new_ax.set_xticks(new_y_data)
             new_frame_charts_lt = tk.Frame(total_crimes_window)
-            new_frame_charts_lt.grid(row=1, column=3)
+            new_frame_charts_lt.grid(row=1, column=4)
             new_bar = FigureCanvasTkAgg(new_fig, new_frame_charts_lt)
             new_chart = new_bar.get_tk_widget()
-            new_chart.grid(row=1, column=3)
+            new_chart.grid(row=1, column=4)
         else:
             total_crimes_window.geometry("850x700+100+100")
             messagebox.showinfo(
@@ -97,10 +101,10 @@ def total_crimes():
     )
     data_input_btn.grid(row=3, column=1)
     show_highest_crimes = tk.Button(
-        total_crimes_window, text="Show total crimes", command=show_main)
+        total_crimes_window, text="Highest crime areas", command=show_main)
     show_highest_crimes.grid(row=0, column=2, pady=20)
     show_total_crimes = tk.Button(
-        total_crimes_window, text="Show total crimes", command=show_common_crimes_window)
+        total_crimes_window, text="Common crimes", command=show_common_crimes_window)
     show_total_crimes.grid(row=0, column=3, pady=20)
     download_data = tk.Button(
         total_crimes_window, text="Upload File", command=upload_file

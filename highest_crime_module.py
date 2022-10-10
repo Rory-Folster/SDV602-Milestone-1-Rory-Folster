@@ -1,3 +1,7 @@
+"""
+DES to plot the areas with the most crime.
+"""
+
 from tkinter import END, ACTIVE, DISABLED, filedialog, messagebox
 import tkinter as tk
 import pandas as pd
@@ -76,7 +80,7 @@ def highest_crime_areas():
         # If the user returns a directory, run the following code.
         if file:
             # Increase the size of the window to allow the new plot to fit.
-            root.geometry("1500x700+100+100")
+            root.geometry("1600x700+100+100")
             # Adding the dataframe into a variable so i can deconstruct it
             imported_file = pd.read_csv(file)
             # Grabbing the first column
@@ -115,11 +119,11 @@ def highest_crime_areas():
             global NEW_FRAME_CHARTS_LT
             # creating new frame
             NEW_FRAME_CHARTS_LT = tk.Frame(root)
-            NEW_FRAME_CHARTS_LT.grid(row=1, column=3)
+            NEW_FRAME_CHARTS_LT.grid(row=1, column=4)
             # adding the figure into the frame and placing the frame on the window.
             new_pie = FigureCanvasTkAgg(new_fig, NEW_FRAME_CHARTS_LT)
             new_chart = new_pie.get_tk_widget()
-            new_chart.grid(row=1, column=3)
+            new_chart.grid(row=1, column=4)
 
     def reset_view():
         """

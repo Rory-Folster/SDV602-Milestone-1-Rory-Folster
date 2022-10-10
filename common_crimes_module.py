@@ -1,3 +1,7 @@
+"""
+DES to plot the most common crimes in Atlanta DES. 
+"""
+
 from tkinter import END, ACTIVE, DISABLED, filedialog, messagebox
 import tkinter as tk
 import pandas as pd
@@ -28,7 +32,7 @@ def most_common_crimes():
         )
         if file:
             try:
-                most_common_crimes_window.geometry("1500x700+100+100")
+                most_common_crimes_window.geometry("1600x700+100+100")
                 imported_file = pd.read_csv(file)
                 new_pie_data = (
                     imported_file["count"].iloc[0:6].sort_values(
@@ -55,10 +59,10 @@ def most_common_crimes():
                 )
                 reset_btn.config(state=ACTIVE)
                 new_frame_charts_lt = tk.Frame(most_common_crimes_window)
-                new_frame_charts_lt.grid(row=1, column=3)
+                new_frame_charts_lt.grid(row=1, column=4)
                 new_pie = FigureCanvasTkAgg(new_fig, new_frame_charts_lt)
                 new_chart = new_pie.get_tk_widget()
-                new_chart.grid(row=1, column=3)
+                new_chart.grid(row=1, column=4)
             except:
                 most_common_crimes_window.geometry("970x700+100+100")
                 messagebox.showinfo(
@@ -94,10 +98,10 @@ def most_common_crimes():
     )
     input_data_label.grid(row=2, column=0)
     show_highest_crimes = tk.Button(
-        most_common_crimes_window, text="Show total crimes", command=show_main)
+        most_common_crimes_window, text="Highest crime areas", command=show_main)
     show_highest_crimes.grid(row=0, column=2, pady=20)
     show_total_crimes = tk.Button(
-        most_common_crimes_window, text="Show total crimes", command=show_total_crimes_window)
+        most_common_crimes_window, text="Total crimes", command=show_total_crimes_window)
     show_total_crimes.grid(row=0, column=3, pady=20)
     data_input = tk.Entry(most_common_crimes_window, width=15)
     data_input.grid(row=3, column=0, ipady=30, ipadx=270)
