@@ -132,6 +132,6 @@ def total_crimes():
     chart = FigureCanvasTkAgg(
         fig, frame_charts_lt
     )  # Adding the Figure and plot together using the FigureCanvasTkAgg interface
-    toolbar = NavigationToolbar2Tk(total_crimes_window, chart)
+    toolbar = NavigationToolbar2Tk(chart)
     toolbar.grid(row=2, column=0)
     chart.get_tk_widget().grid(row=1, column=0)
