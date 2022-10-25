@@ -141,6 +141,6 @@ def most_common_crimes():
         prop={"size": 7},
     )
     chart = FigureCanvasTkAgg(fig, frame_charts_lt)
-    toolbar = NavigationToolbar2Tk(chart)
+    toolbar = NavigationToolbar2Tk(most_common_crimes_window, chart)
     toolbar.grid(row=2, column=0)
     chart.get_tk_widget().grid(row=1, column=0)
