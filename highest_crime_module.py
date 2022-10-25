@@ -187,7 +187,7 @@ def highest_crime_areas():
         label_data, title="Neighborhoods", loc="upper left", bbox_to_anchor=(0.9, 1.05)
     )
     chart = FigureCanvasTkAgg(fig, frame_charts_lt)
-    toolbar = NavigationToolbar2Tk(root, chart)
+    toolbar = NavigationToolbar2Tk(chart)
     toolbar.grid(row=2, column=0)
     chart.get_tk_widget().grid(row=1, column=0)
 
